@@ -33,6 +33,7 @@ class SignInView extends StatelessWidget {
             ),
             RaisedButton(
               onPressed: (){},
+              child: Text("Sign in with Google"),
             )
           ],
         ),
