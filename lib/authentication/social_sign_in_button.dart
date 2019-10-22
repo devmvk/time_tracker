@@ -9,20 +9,22 @@ class SocialSignInButton extends CustomRaisedButton{
     Color textColor,
     Color color,
     VoidCallback onPressed
-  }) : super(
-    onPressed: onPressed,
-    color: color,
-    child: Row(
-      children: <Widget>[
-        Image.asset(assetName),
-        Expanded(child: SizedBox(),),
-        Text(text,
-          style: TextStyle(
-            color: textColor,
-            fontSize: 15.0),
-          ),
-        Expanded(child: SizedBox(),)
-      ],
-    ),
-  );
+}) :  assert(assetName != null),
+      assert(text != null),
+      super(
+        onPressed: onPressed,
+        color: color,
+        child: Row(
+          children: <Widget>[
+            Image.asset(assetName),
+            Expanded(child: SizedBox(),),
+            Text(text,
+              style: TextStyle(
+                color: textColor,
+                fontSize: 15.0),
+              ),
+            Expanded(child: SizedBox(),)
+          ],
+        ),
+      );
 }
