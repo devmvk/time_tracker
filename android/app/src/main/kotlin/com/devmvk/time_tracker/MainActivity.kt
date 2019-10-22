@@ -1,4 +1,4 @@
-package com.example.time_tracker
+package com.devmvk.time_tracker
 
 import android.os.Bundle
 import io.flutter.app.FlutterActivity
