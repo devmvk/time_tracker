@@ -5,10 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInView extends StatelessWidget {
 
+  final Function(FirebaseUser user) onSignIn;
+  SignInView({this.onSignIn});
+
   void _signInAnonymously (){
     FirebaseAuth.instance.signInAnonymously()
       .then((AuthResult _result){
-        print(_result);
+        onSignIn(_result.user);
       }) 
       .catchError((e){
         print(e.toString());

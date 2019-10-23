@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/authentication/sign_in.dart';
+import 'package:time_tracker/common/landing_page.dart';
 
 void main() => runApp(TimeTracker());
 
@@ -12,7 +13,7 @@ class TimeTracker extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo
       ),
-      home: SignInView()
+      home: LandingPage()
     );
   }
 }
