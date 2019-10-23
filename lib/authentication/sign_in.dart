@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/authentication/sign_in_button.dart';
 import 'package:time_tracker/authentication/social_sign_in_button.dart';
-import 'package:time_tracker/common/custom_raised_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInView extends StatelessWidget {
+
+  void _signInAnonymously (){
+    FirebaseAuth.instance.signInAnonymously()
+      .then((AuthResult _result){
+        print(_result);
+      }) 
+      .catchError((e){
+        print(e.toString());
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -73,7 +84,7 @@ class SignInView extends StatelessWidget {
               color: Colors.lime.shade300,
               textColor: Colors.black87,
               text: "Go anonymous",
-              onPressed: (){},
+              onPressed: _signInAnonymously,
             )
           ],
         ),
