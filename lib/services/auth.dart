@@ -44,6 +44,10 @@ class Auth implements AuthBase{
     _gSignIn.isSignedIn().then((bool isSignedIn){
       if(isSignedIn) _gSignIn.signOut();
     });
+    FacebookLogin _fLogin = FacebookLogin();
+    _fLogin.isLoggedIn..then((bool isSignedIn){
+      if(isSignedIn) _fLogin.logOut();
+    });
     return _auth.signOut();
   }
 
@@ -71,19 +75,23 @@ class Auth implements AuthBase{
   @override Future<User> facebookSignIn() async{
     try{
       final FacebookLogin _fLogin = FacebookLogin();
-      //final FacebookLoginResult _result = await _fLogin.logInWithReadPermissions(['email']);
+      final FacebookLoginResult  _result = await _fLogin.logIn(['public_profile']);
 
-      // if(_gAccount != null){
-      //   GoogleSignInAuthentication _gAuthentication = await _gAccount.authentication;
-      //    return _auth.signInWithCredential(
-      //     GoogleAuthProvider.getCredential(
-      //       idToken: _gAuthentication.idToken,
-      //       accessToken: _gAuthentication.accessToken
-      //     )
-      //   ).then<User>((AuthResult _) => _.user != null ? User(uid: _.user.toString()) : null);
-      // }else{
-      //   throw StateError("");
-      // }
+      switch(_result.status){
+        case FacebookLoginStatus.loggedIn:
+          return _auth.signInWithCredential(
+            FacebookAuthProvider.getCredential(
+              accessToken: _result.accessToken.token
+            )
+          ).then<User>((AuthResult _) => _.user != null ? User(uid: _.user.toString()) : null);
+          break;
+        case FacebookLoginStatus.cancelledByUser:
+          throw StateError("User Cancelled");
+          break;
+        case FacebookLoginStatus.error:
+          throw StateError("Error");
+          break;
+      }
     }catch (e){
       throw Exception(e.toString());
     }
