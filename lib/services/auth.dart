@@ -1,11 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 abstract class AuthBase{
 
   Future<User> currentUser();
   Future<User> signIn();
   Future<void> signOut();
+  Future<User> googleSignIn();
+  Future<User> facebookSignIn();
   Stream<User> get onAuthStateChanged;
 
 }
@@ -36,7 +40,53 @@ class Auth implements AuthBase{
   }
 
   @override Future<void> signOut(){
+    GoogleSignIn _gSignIn = GoogleSignIn();
+    _gSignIn.isSignedIn().then((bool isSignedIn){
+      if(isSignedIn) _gSignIn.signOut();
+    });
     return _auth.signOut();
+  }
+
+  @override Future<User> googleSignIn() async{
+    try{
+      GoogleSignIn _gSignIn = GoogleSignIn();
+      GoogleSignInAccount _gAccount = await _gSignIn.signIn();
+      if(_gAccount != null){
+        GoogleSignInAuthentication _gAuthentication = await _gAccount.authentication;
+         return _auth.signInWithCredential(
+          GoogleAuthProvider.getCredential(
+            idToken: _gAuthentication.idToken,
+            accessToken: _gAuthentication.accessToken
+          )
+        ).then<User>((AuthResult _) => _.user != null ? User(uid: _.user.toString()) : null);
+      }else{
+        throw StateError("");
+      }
+    }catch (e){
+      throw Exception(e.toString());
+    }
+    
+  }
+
+  @override Future<User> facebookSignIn() async{
+    try{
+      final FacebookLogin _fLogin = FacebookLogin();
+      //final FacebookLoginResult _result = await _fLogin.logInWithReadPermissions(['email']);
+
+      // if(_gAccount != null){
+      //   GoogleSignInAuthentication _gAuthentication = await _gAccount.authentication;
+      //    return _auth.signInWithCredential(
+      //     GoogleAuthProvider.getCredential(
+      //       idToken: _gAuthentication.idToken,
+      //       accessToken: _gAuthentication.accessToken
+      //     )
+      //   ).then<User>((AuthResult _) => _.user != null ? User(uid: _.user.toString()) : null);
+      // }else{
+      //   throw StateError("");
+      // }
+    }catch (e){
+      throw Exception(e.toString());
+    }
   }
 
 }

@@ -37,3 +37,4 @@ lib/generated_plugin_registrant.dart
 
 #Avoid google-services.json
 /android/app/google-services.json
+android/app/src/main/res/values/strings.xml

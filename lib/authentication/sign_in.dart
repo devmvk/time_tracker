@@ -8,11 +8,30 @@ class SignInView extends StatelessWidget {
   final AuthBase auth;
   SignInView({@required this.auth});
 
-  void _signInAnonymously (){
-    auth.signIn()
-      .catchError((e){
-        print(e.toString());
-      });
+  void _signInAnonymously () async{
+    try{
+      await auth.signIn();
+    }catch (e){
+      print(e.toString());
+    }
+  }
+
+  void _googleSignIn () async{
+     try{
+      await auth.googleSignIn();
+    }catch (e){
+      print(e.toString());
+    }
+
+  }
+
+  void _facebookSignIn () async{
+    try{
+      await auth.facebookSignIn();
+    }catch (e){
+      print(e.toString());
+    }
+
   }
 
   @override
@@ -49,7 +68,7 @@ class SignInView extends StatelessWidget {
             SocialSignInButton(
               assetName: "images/google-logo.png",
               color: Colors.white,
-              onPressed: (){},
+              onPressed: _googleSignIn,
               text: "Sign in with Google",
               textColor: Colors.black87,
             ),
@@ -60,7 +79,7 @@ class SignInView extends StatelessWidget {
             SocialSignInButton(
               assetName: "images/facebook-logo.png",
               color: Color(0xFF334D92),
-              onPressed: (){},
+              onPressed: _facebookSignIn,
               text: "Sign in with Facebook",
               textColor: Colors.white,
             ),
@@ -70,7 +89,7 @@ class SignInView extends StatelessWidget {
             SignInButton(
               color: Colors.teal.shade700,
               textColor: Colors.white,
-              text: "Sign in with Google",
+              text: "Sign in with Email",
               onPressed: (){},
             ),
             SizedBox(
