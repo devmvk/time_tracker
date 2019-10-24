@@ -6,14 +6,10 @@ import 'package:time_tracker/services/auth.dart';
 class SignInView extends StatelessWidget {
 
   final AuthBase auth;
-  final Function(User user) onSignIn;
-  SignInView({@required this.auth, this.onSignIn});
+  SignInView({@required this.auth});
 
   void _signInAnonymously (){
     auth.signIn()
-      .then((User user){
-        onSignIn(user);
-      }) 
       .catchError((e){
         print(e.toString());
       });
