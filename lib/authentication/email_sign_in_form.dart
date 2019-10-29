@@ -29,10 +29,12 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   String get _password => _passwordController.text;
 
   bool _isSubmitted = false;
+  bool _isLoading = false;
 
   void _submit() async{
     setState(() {
       _isSubmitted = true;
+      _isLoading = true;
     });
     try{
       if(_formType == EmailFormType.signIn){
@@ -42,12 +44,17 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       }
     }catch (e){
       print(e.toString());
+    } finally{
+      setState(() {
+        _isLoading = false;
+      });
     }
     Navigator.of(context).pop();
   }
 
   void _focusOnPasswordField(){
-    FocusScope.of(context).requestFocus(_passwordFocusNode);
+    FocusNode _toggleNode = widget.emailValidator.isValid(_email) ? _passwordFocusNode : _emailFocusNode;
+    FocusScope.of(context).requestFocus(_toggleNode);
   }
 
   void _toggleFormType(){
@@ -70,12 +77,12 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       SizedBox(height: 8.0,),
       FormSignInButton(
         text: _primaryText,
-        onPressed: _submit,
+        onPressed: _isLoading ? null : _submit,
       ),
       SizedBox(height: 8.0,),
       FlatButton(
         child: Text(_secondaryText),
-        onPressed: _toggleFormType,
+        onPressed: _isLoading ? null : _toggleFormType,
       )
     ];
   }
