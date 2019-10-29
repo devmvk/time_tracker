@@ -10,6 +10,8 @@ abstract class AuthBase{
   Future<void> signOut();
   Future<User> googleSignIn();
   Future<User> facebookSignIn();
+  Future<User> emailAndPasswordSignIn(String email, String password);
+  Future<User> createAccount(String email, String password);
   Stream<User> get onAuthStateChanged;
 
 }
@@ -92,6 +94,24 @@ class Auth implements AuthBase{
           throw StateError("Error");
           break;
       }
+    }catch (e){
+      throw Exception(e.toString());
+    }
+  }
+
+  @override Future<User> createAccount(String email, String password) async{
+    try{
+      return _auth.createUserWithEmailAndPassword(email: email, password: password)
+      .then<User>((AuthResult _) => _.user != null ? User(uid: _.user.toString()) : null);
+    }catch (e){
+      throw Exception(e.toString());
+    }
+  }
+
+  @override Future<User> emailAndPasswordSignIn(String email, String password) async{
+    try{
+      return _auth.signInWithEmailAndPassword(email: email, password: password)
+      .then<User>((AuthResult _) => _.user != null ? User(uid: _.user.toString()) : null);
     }catch (e){
       throw Exception(e.toString());
     }

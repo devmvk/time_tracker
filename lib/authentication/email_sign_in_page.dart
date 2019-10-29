@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/authentication/email_sign_in_form.dart';
+import 'package:time_tracker/services/auth.dart';
 
 class EmailSignIn extends StatelessWidget {
+  final AuthBase auth;
+
+  EmailSignIn({@required this.auth});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -10,7 +15,7 @@ class EmailSignIn extends StatelessWidget {
           title: Text("Email SignIn"),
           centerTitle: true,
         ),  
-        body: EmailSignInForm(),
+        body: EmailSignInForm(auth: auth,),
       ),
     );
   }

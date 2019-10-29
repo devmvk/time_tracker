@@ -37,7 +37,7 @@ class SignInView extends StatelessWidget {
   void _emailSignIn(BuildContext context){
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (BuildContext context) => EmailSignIn()
+        builder: (BuildContext context) => EmailSignIn(auth: auth,)
       )
     );
   }
