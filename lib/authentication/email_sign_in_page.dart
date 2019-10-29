@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:time_tracker/authentication/email_sign_in_form.dart';
 
 class EmailSignIn extends StatelessWidget {
   @override
@@ -9,7 +10,7 @@ class EmailSignIn extends StatelessWidget {
           title: Text("Email SignIn"),
           centerTitle: true,
         ),  
-        body: Container(),
+        body: EmailSignInForm(),
       ),
     );
   }
