@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:time_tracker/authentication/form_submit_button.dart';
+import 'package:time_tracker/common/platform_alert_dialog.dart';
 import 'package:time_tracker/common/validators.dart';
 import 'package:time_tracker/services/auth.dart';
 
@@ -43,7 +46,11 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         await widget.auth.createAccount(_email, _password);
       }
     }catch (e){
-      print(e.toString());
+      PlatformAlertDialog(
+        title: "Sign In failed",
+        content: e.toString(),
+        defalutActionText: "OK"
+      ).show(context);
     } finally{
       setState(() {
         _isLoading = false;
