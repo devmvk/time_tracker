@@ -5,16 +5,12 @@ import 'package:time_tracker/authentication/form_submit_button.dart';
 import 'package:time_tracker/common/platform_alert_dialog.dart';
 import 'package:time_tracker/common/validators.dart';
 import 'package:time_tracker/services/auth.dart';
+import 'package:time_tracker/services/auth_provider.dart';
 
 
 enum EmailFormType{ signIn, register}
 
 class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidator {
-
-  final AuthBase auth;
-
-  EmailSignInForm({@required this.auth});
-
   @override
   _EmailSignInFormState createState() => _EmailSignInFormState();
 }
@@ -25,7 +21,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
-
+  
   EmailFormType _formType = EmailFormType.signIn;
 
   String get _email => _emailController.text;
@@ -35,15 +31,17 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   bool _isLoading = false;
 
   void _submit() async{
+    AuthBase _auth = AuthProvider.of(context);
+
     setState(() {
       _isSubmitted = true;
       _isLoading = true;
     });
     try{
       if(_formType == EmailFormType.signIn){
-        await widget.auth.emailAndPasswordSignIn(_email, _password);
+        await _auth.emailAndPasswordSignIn(_email, _password);
       }else{
-        await widget.auth.createAccount(_email, _password);
+        await _auth.createAccount(_email, _password);
       }
     }catch (e){
       PlatformAlertDialog(

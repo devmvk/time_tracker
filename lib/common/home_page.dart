@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/common/platform_alert_dialog.dart';
 import 'package:time_tracker/services/auth.dart';
+import 'package:time_tracker/services/auth_provider.dart';
 
 class HomePage extends StatelessWidget {
 
-  final AuthBase auth;
-
-
-  HomePage({@required this.auth});
+  AuthBase auth;
 
   void _signOut() async{
     await auth.signOut();
@@ -27,6 +25,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    auth = AuthProvider.of(context);
     return SafeArea(
       child: Scaffold(
         body: Container(),
