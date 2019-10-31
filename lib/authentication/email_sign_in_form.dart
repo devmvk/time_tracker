@@ -1,12 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:time_tracker/authentication/form_submit_button.dart';
 import 'package:time_tracker/common/platform_alert_dialog.dart';
 import 'package:time_tracker/common/validators.dart';
 import 'package:time_tracker/services/auth.dart';
-import 'package:time_tracker/services/auth_provider.dart';
-
+import 'package:provider/provider.dart';
 
 enum EmailFormType{ signIn, register}
 
@@ -31,7 +28,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   bool _isLoading = false;
 
   void _submit() async{
-    AuthBase _auth = AuthProvider.of(context);
+    AuthBase _auth = Provider.of<AuthBase>(context);
 
     setState(() {
       _isSubmitted = true;

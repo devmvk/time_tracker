@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:time_tracker/authentication/email_sign_in_page.dart';
 import 'package:time_tracker/authentication/sign_in_button.dart';
 import 'package:time_tracker/authentication/social_sign_in_button.dart';
 import 'package:time_tracker/services/auth.dart';
-import 'package:time_tracker/services/auth_provider.dart';
 
 class SignInView extends StatelessWidget {
 
@@ -44,7 +44,7 @@ class SignInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    auth = AuthProvider.of(context);
+    auth = Provider.of<AuthBase>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

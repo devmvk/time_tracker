@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/common/platform_alert_dialog.dart';
 import 'package:time_tracker/services/auth.dart';
-import 'package:time_tracker/services/auth_provider.dart';
-
+import 'package:provider/provider.dart';
 class HomePage extends StatelessWidget {
 
   AuthBase auth;
@@ -25,7 +24,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    auth = AuthProvider.of(context);
+    auth = Provider.of<AuthBase>(context);
     return SafeArea(
       child: Scaffold(
         body: Container(),
