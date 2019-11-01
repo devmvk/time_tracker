@@ -1,36 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker/authentication/email_sign_in_page.dart';
 import 'package:time_tracker/authentication/sign_in_button.dart';
 import 'package:time_tracker/authentication/social_sign_in_button.dart';
+import 'package:time_tracker/common/platform_exception_alert_dialog.dart';
 import 'package:time_tracker/services/auth.dart';
 
-class SignInView extends StatelessWidget {
+class SignInView extends StatefulWidget {
 
+  @override
+  _SignInViewState createState() => _SignInViewState();
+}
+
+class _SignInViewState extends State<SignInView> {
   AuthBase auth;
+  bool _isLoading = false;
 
-  void _signInAnonymously () async{
+  void _showError(BuildContext context, PlatformException exception){
+    PlatformExceptionAlertDialog(
+      exception: exception,
+      title: "Sign In Failed",
+    ).show(context);
+  }
+
+  void _signInAnonymously (BuildContext context) async{
     try{
+      setState(() {
+        _isLoading = true;
+      });
       await auth.signIn();
-    }catch (e){
+    }on PlatformException catch (e){
+      _showError(context, e);
+    }catch(e){
       print(e.toString());
+    }finally{
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
-  void _googleSignIn () async{
-     try{
-      await auth.googleSignIn();
-    }catch (e){
-      print(e.toString());
-    }
-
-  }
-
-  void _facebookSignIn () async{
+  void _googleSignIn(BuildContext context) async{
     try{
-      await auth.facebookSignIn();
-    }catch (e){
+      setState(() {
+        _isLoading = true;
+      });
+      await auth.googleSignIn();
+    }on PlatformException catch (e){
+      _showError(context, e);
+    }catch(e){
       print(e.toString());
+    }finally{
+      setState(() {
+        _isLoading = false;
+      });
+    }
+
+  }
+
+  void _facebookSignIn(BuildContext context) async{
+    try{
+      setState(() {
+        _isLoading = true;
+      });
+      await auth.facebookSignIn();
+    }on PlatformException catch (e){
+      _showError(context, e);
+    }catch(e){
+      print(e.toString());
+    }finally{
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -63,13 +105,7 @@ class SignInView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Sign In",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 32.0,
-                fontWeight: FontWeight.w600
-              ),
-            ),
+            _buildHeader(),
             SizedBox(
               height: 48.0,
             ),
@@ -77,7 +113,7 @@ class SignInView extends StatelessWidget {
             SocialSignInButton(
               assetName: "images/google-logo.png",
               color: Colors.white,
-              onPressed: _googleSignIn,
+              onPressed: () => _googleSignIn(context),
               text: "Sign in with Google",
               textColor: Colors.black87,
             ),
@@ -88,7 +124,7 @@ class SignInView extends StatelessWidget {
             SocialSignInButton(
               assetName: "images/facebook-logo.png",
               color: Color(0xFF334D92),
-              onPressed: _facebookSignIn,
+              onPressed: () => _facebookSignIn(context),
               text: "Sign in with Facebook",
               textColor: Colors.white,
             ),
@@ -112,10 +148,25 @@ class SignInView extends StatelessWidget {
               color: Colors.lime.shade300,
               textColor: Colors.black87,
               text: "Go anonymous",
-              onPressed: _signInAnonymously,
+              onPressed: () =>  _signInAnonymously(context),
             )
           ],
         ),
       );
+  }
+
+  Widget _buildHeader() {
+    if(_isLoading){
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return Text("Sign In",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 32.0,
+        fontWeight: FontWeight.w600
+      ),
+    );
   }
 }
