@@ -6,12 +6,12 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 abstract class AuthBase{
 
   Future<User> currentUser();
-  Future<User> signIn();
-  Future<void> signOut();
+  Future<User> signInAnonymously();
   Future<User> googleSignIn();
   Future<User> facebookSignIn();
   Future<User> emailAndPasswordSignIn(String email, String password);
   Future<User> createAccount(String email, String password);
+  Future<void> signOut();
   Stream<User> get onAuthStateChanged;
 
 }
@@ -35,7 +35,7 @@ class Auth implements AuthBase{
       .catchError((e){print(e.toString());});
   }
 
-  @override Future<User> signIn() async{
+  @override Future<User> signInAnonymously() async{
     return _auth.signInAnonymously()
       .then((_fbAuth) => User(uid: _fbAuth.user.uid))
       .catchError((e){print(e.toString());});

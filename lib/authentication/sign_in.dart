@@ -15,8 +15,9 @@ class SignInView extends StatelessWidget {
   const SignInView({Key key, @required this.bloc}) : super(key: key);
 
   static Widget create(BuildContext context){
+    final AuthBase auth = Provider.of<AuthBase>(context);
     return Provider<SignInBloc>(
-      builder: (_) => SignInBloc(),
+      builder: (_) => SignInBloc(auth: auth),
       dispose: (_, bloc) => bloc.dispose(),
       child: Consumer<SignInBloc>(
         builder: (context, bloc, _) => SignInView(bloc: bloc,)
@@ -34,44 +35,32 @@ class SignInView extends StatelessWidget {
 
   void _signInAnonymously (BuildContext context) async{
     try{
-      bloc.setLoadingState(true);
-      final auth = Provider.of<AuthBase>(context);
-      await auth.signIn();
+      await bloc.signInAnonymously();
     }on PlatformException catch (e){
       _showError(context, e);
     }catch(e){
       print(e.toString());
-    }finally{
-      bloc.setLoadingState(false);
     }
   }
 
   void _googleSignIn(BuildContext context) async{
     try{
-      bloc.setLoadingState(true);
-      final auth = Provider.of<AuthBase>(context);
-      await auth.googleSignIn();
+      await bloc.googleSignIn();
     }on PlatformException catch (e){
       _showError(context, e);
     }catch(e){
       print(e.toString());
-    }finally{
-      bloc.setLoadingState(false);
     }
 
   }
 
   void _facebookSignIn(BuildContext context) async{
     try{
-      bloc.setLoadingState(true);
-      final auth = Provider.of<AuthBase>(context);
-      await auth.facebookSignIn();
+      await bloc.facebookSignIn();
     }on PlatformException catch (e){
       _showError(context, e);
     }catch(e){
       print(e.toString());
-    }finally{
-      bloc.setLoadingState(false);
     }
   }
 
