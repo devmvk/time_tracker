@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/authentication/form_submit_button.dart';
-import 'package:time_tracker/common/platform_alert_dialog.dart';
 import 'package:time_tracker/common/platform_exception_alert_dialog.dart';
 import 'package:time_tracker/common/validators.dart';
 import 'package:time_tracker/services/auth.dart';
@@ -131,5 +130,14 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         children: _buildChildren(),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
   }
 }
