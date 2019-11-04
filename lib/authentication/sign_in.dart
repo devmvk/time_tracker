@@ -10,14 +10,20 @@ import 'package:time_tracker/services/auth.dart';
 
 class SignInView extends StatelessWidget {
 
+  final SignInBloc bloc;
+
+  const SignInView({Key key, @required this.bloc}) : super(key: key);
+
   static Widget create(BuildContext context){
     return Provider<SignInBloc>(
       builder: (_) => SignInBloc(),
-      child: SignInView(),
+      dispose: (_, bloc) => bloc.dispose(),
+      child: Consumer<SignInBloc>(
+        builder: (context, bloc, _) => SignInView(bloc: bloc,)
+      ),
     );
   }
 
-  AuthBase auth;
   
   void _showError(BuildContext context, PlatformException exception){
     PlatformExceptionAlertDialog(
@@ -27,9 +33,9 @@ class SignInView extends StatelessWidget {
   }
 
   void _signInAnonymously (BuildContext context) async{
-    final bloc = Provider.of<SignInBloc>(context);
     try{
       bloc.setLoadingState(true);
+      final auth = Provider.of<AuthBase>(context);
       await auth.signIn();
     }on PlatformException catch (e){
       _showError(context, e);
@@ -41,9 +47,9 @@ class SignInView extends StatelessWidget {
   }
 
   void _googleSignIn(BuildContext context) async{
-    final bloc = Provider.of<SignInBloc>(context);
     try{
       bloc.setLoadingState(true);
+      final auth = Provider.of<AuthBase>(context);
       await auth.googleSignIn();
     }on PlatformException catch (e){
       _showError(context, e);
@@ -56,9 +62,9 @@ class SignInView extends StatelessWidget {
   }
 
   void _facebookSignIn(BuildContext context) async{
-    final bloc = Provider.of<SignInBloc>(context);
     try{
       bloc.setLoadingState(true);
+      final auth = Provider.of<AuthBase>(context);
       await auth.facebookSignIn();
     }on PlatformException catch (e){
       _showError(context, e);
@@ -79,7 +85,6 @@ class SignInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    auth = Provider.of<AuthBase>(context);
     final bloc = Provider.of<SignInBloc>(context);
     return SafeArea(
       child: Scaffold(
