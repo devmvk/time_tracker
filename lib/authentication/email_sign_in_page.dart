@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/authentication/email_sign_in_form.dart';
+import 'package:time_tracker/authentication/email_sign_in_form_bloc_base.dart';
 
 class EmailSignIn extends StatelessWidget {
   
@@ -11,7 +11,7 @@ class EmailSignIn extends StatelessWidget {
           title: Text("Email SignIn"),
           centerTitle: true,
         ),  
-        body: EmailSignInForm(),
+        body: EmailSignInFormBlocBased.create(context),
       ),
     );
   }

@@ -22,9 +22,8 @@ class SignInBloc{
       _setLoadingState(true);
       return await signInMethod();
     }catch(e){
+       _setLoadingState(false);
       rethrow;
-    }finally{
-      _setLoadingState(false);
     }
   }
 
