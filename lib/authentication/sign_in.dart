@@ -11,8 +11,9 @@ import 'package:time_tracker/services/auth.dart';
 class SignInView extends StatelessWidget {
 
   final SignInBloc bloc;
+  final bool isLoading;
 
-  const SignInView({Key key, @required this.bloc}) : super(key: key);
+  const SignInView({Key key, @required this.bloc, @required this.isLoading}) : super(key: key);
 
   static Widget create(BuildContext context){
     final AuthBase auth = Provider.of<AuthBase>(context);
@@ -22,7 +23,7 @@ class SignInView extends StatelessWidget {
         builder: (_, ValueNotifier<bool> isLoading, __) => Provider<SignInBloc>(
           builder: (_) => SignInBloc(auth: auth, isLoading: isLoading),
           child: Consumer<SignInBloc>(
-            builder: (context, bloc, _) => SignInView(bloc: bloc,)
+            builder: (context, bloc, _) => SignInView(bloc: bloc, isLoading: isLoading.value,)
           ),
         ),
       ),
@@ -78,26 +79,26 @@ class SignInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _isLoading = Provider.of<ValueNotifier<bool>>(context);
+    //final _isLoading = Provider.of<ValueNotifier<bool>>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: Text("Time Tracker"),
           centerTitle: true,
         ),  
-        body: _buildScreen(context, _isLoading.value)
+        body: _buildScreen(context)
       ),
     );
   }
 
-  Container _buildScreen(BuildContext context, bool isLoading) {
+  Container _buildScreen(BuildContext context) {
     return Container(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _buildHeader(isLoading),
+            _buildHeader(),
             SizedBox(
               height: 48.0,
             ),
@@ -147,7 +148,7 @@ class SignInView extends StatelessWidget {
       );
   }
 
-  Widget _buildHeader(bool isLoading) {
+  Widget _buildHeader() {
     if(isLoading){
       return Center(
         child: CircularProgressIndicator(),
