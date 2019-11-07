@@ -103,7 +103,7 @@ class SignInView extends StatelessWidget {
             SizedBox(
               height: 48.0,
             ),
-            
+            // for commit
             SocialSignInButton(
               assetName: "images/google-logo.png",
               color: Colors.white,
