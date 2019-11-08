@@ -5,10 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:time_tracker/services/auth.dart';
 
-class SignInBloc{
+class SignInManager{
   final AuthBase auth;
   final ValueNotifier<bool> isLoading;
-  SignInBloc({@required this.auth, @required this.isLoading});
+  SignInManager({@required this.auth, @required this.isLoading});
   
   
   Future<User> _signIn(Future<User> Function() signInMethod) async{
