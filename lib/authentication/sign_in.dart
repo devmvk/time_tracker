@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker/authentication/email_sign_in_page.dart';
-import 'package:time_tracker/authentication/sign_in_bloc.dart';
+import 'package:time_tracker/authentication/sign_in_manager.dart';
 import 'package:time_tracker/authentication/sign_in_button.dart';
 import 'package:time_tracker/authentication/social_sign_in_button.dart';
 import 'package:time_tracker/common/platform_exception_alert_dialog.dart';
@@ -10,20 +10,20 @@ import 'package:time_tracker/services/auth.dart';
 
 class SignInView extends StatelessWidget {
 
-  final SignInBloc bloc;
+  final SignInManager manager;
   final bool isLoading;
 
-  const SignInView({Key key, @required this.bloc, @required this.isLoading}) : super(key: key);
+  const SignInView({Key key, @required this.manager, @required this.isLoading}) : super(key: key);
 
   static Widget create(BuildContext context){
     final AuthBase auth = Provider.of<AuthBase>(context);
     return ChangeNotifierProvider<ValueNotifier<bool>>(
       builder: (_) => ValueNotifier<bool>(false),
       child: Consumer(
-        builder: (_, ValueNotifier<bool> isLoading, __) => Provider<SignInBloc>(
-          builder: (_) => SignInBloc(auth: auth, isLoading: isLoading),
-          child: Consumer<SignInBloc>(
-            builder: (context, bloc, _) => SignInView(bloc: bloc, isLoading: isLoading.value,)
+        builder: (_, ValueNotifier<bool> isLoading, __) => Provider<SignInManager>(
+          builder: (_) => SignInManager(auth: auth, isLoading: isLoading),
+          child: Consumer<SignInManager>(
+            builder: (context, manager, _) => SignInView(manager: manager, isLoading: isLoading.value,)
           ),
         ),
       ),
@@ -40,7 +40,7 @@ class SignInView extends StatelessWidget {
 
   void _signInAnonymously (BuildContext context) async{
     try{
-      await bloc.signInAnonymously();
+      await manager.signInAnonymously();
     }on PlatformException catch (e){
       _showError(context, e);
     }catch(e){
@@ -50,7 +50,7 @@ class SignInView extends StatelessWidget {
 
   void _googleSignIn(BuildContext context) async{
     try{
-      await bloc.googleSignIn();
+      await manager.googleSignIn();
     }on PlatformException catch (e){
       _showError(context, e);
     }catch(e){
@@ -61,7 +61,7 @@ class SignInView extends StatelessWidget {
 
   void _facebookSignIn(BuildContext context) async{
     try{
-      await bloc.facebookSignIn();
+      await manager.facebookSignIn();
     }on PlatformException catch (e){
       _showError(context, e);
     }catch(e){
