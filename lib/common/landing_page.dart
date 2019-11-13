@@ -8,7 +8,7 @@ class LandingPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-
+    //check up
     AuthBase auth = Provider.of<AuthBase>(context);
     return StreamBuilder(
       stream: auth.onAuthStateChanged,
