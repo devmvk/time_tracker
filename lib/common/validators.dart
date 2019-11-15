@@ -13,6 +13,3 @@ class EmailAndPasswordValidator {
   final String emailErrorText = "Email should not be empty";
   final String passwordErrorText = "Password should not be empty";
 }
-
-
-//Test
