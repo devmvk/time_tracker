@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:time_tracker/common/platform_alert_dialog.dart';
 import 'package:time_tracker/services/auth.dart';
 import 'package:provider/provider.dart';
-class HomePage extends StatelessWidget {
+class JobPage extends StatelessWidget {
 
   AuthBase auth;
 
@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         body: Container(),
         appBar: AppBar(
-          title: Text("Home"),
+          title: Text("Jobs"),
           actions: <Widget>[
             FlatButton(
               onPressed: () => _confirmLogout(context),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/authentication/sign_in.dart';
-import 'package:time_tracker/common/home_page.dart';
+import 'package:time_tracker/home/job_page.dart';
 import 'package:time_tracker/services/auth.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker/services/database.dart';
 
 class LandingPage extends StatelessWidget {
   
@@ -17,7 +18,10 @@ class LandingPage extends StatelessWidget {
           if(_user == null){
             return SignInView.create(context);
           }else{
-            return HomePage();
+            return Provider<DataBase>(
+              builder: (BuildContext _) => FireBaseDataBase(uid:  _user.uid),
+              child: JobPage()
+            );
           }
         }else{
           return Scaffold(
