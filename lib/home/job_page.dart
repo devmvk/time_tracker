@@ -66,7 +66,7 @@ class JobPage extends StatelessWidget {
                       title: Text(job.name),
                       trailing: Icon(Icons.chevron_right),
                       onTap: (){
-                        AddJobPage.show(context);
+                        AddJobPage.show(context, job: job);
                       },
                     ))
                 .toList(),
