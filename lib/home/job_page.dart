@@ -58,13 +58,23 @@ class JobPage extends StatelessWidget {
     DataBase _dataBase = Provider.of<DataBase>(context);
     return StreamBuilder(
       stream: _dataBase.jobStream(),
-      builder: (BuildContext context, AsyncSnapshot<List<Job>> snapshot){
-        if(snapshot.hasData){
+      builder: (BuildContext context, AsyncSnapshot<List<Job>> snapshot) {
+        if (snapshot.hasData) {
           return ListView(
-            children: snapshot.data.map((job) => Text(job.name)).toList(),
+            children: snapshot.data
+                .map((job) => ListTile(
+                      title: Text(job.name),
+                      trailing: Icon(Icons.chevron_right),
+                      onTap: (){
+                        AddJobPage.show(context);
+                      },
+                    ))
+                .toList(),
           );
-        }else{
-          return Center(child: CircularProgressIndicator(),);
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );

@@ -8,12 +8,13 @@ import 'package:time_tracker/services/database.dart';
 class AddJobPage extends StatefulWidget {
 
   final DataBase dataBase;
+  final Job job;
 
-  const AddJobPage({Key key, this.dataBase}) : super(key: key);
-  static Future<void> show(BuildContext context) async {
+  AddJobPage({Key key, @required this.dataBase, this.job}) : super(key: key);
+  static Future<void> show(BuildContext context, {Job job}) async {
     final database = Provider.of<DataBase>(context);
     return Navigator.of(context).push(MaterialPageRoute(
-      builder: (BuildContext context) => AddJobPage(dataBase: database,),
+      builder: (BuildContext context) => AddJobPage(dataBase: database, job: job,),
     ));
   }
 
@@ -25,6 +26,15 @@ class _AddJobPageState extends State<AddJobPage> {
   int _ratePerHour;
   String _jobName;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.job != null){
+      _jobName = widget.job.name;
+      _ratePerHour = widget.job.ratePerHour;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +77,13 @@ class _AddJobPageState extends State<AddJobPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           TextFormField(
+            initialValue: _jobName,
             decoration: InputDecoration(labelText: "Job Name"),
             onSaved: (String value) => _jobName = value,
             validator: (String value) => value.isNotEmpty ? null : "required",
           ),
           TextFormField(
+            initialValue: _ratePerHour != null ?  '$_ratePerHour' : null,
             decoration: InputDecoration(labelText: "Rate per hour"),
             keyboardType: TextInputType.numberWithOptions(),
             onSaved: (String value) => _ratePerHour = int.tryParse(value) ?? 0,
@@ -84,6 +96,8 @@ class _AddJobPageState extends State<AddJobPage> {
   Future<void> _submit() async {
     if (_validateAndSave()) {
       try{
+
+        // ** TODO manage update job functionality
         widget.dataBase.createJob(Job(name: _jobName, ratePerHour: _ratePerHour, id: DateTime.now().toIso8601String()));
       }on PlatformException catch (e){
         PlatformExceptionAlertDialog(
