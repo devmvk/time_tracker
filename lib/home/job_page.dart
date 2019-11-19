@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:time_tracker/common/platform_alert_dialog.dart';
 import 'package:time_tracker/common/platform_exception_alert_dialog.dart';
+import 'package:time_tracker/home/add_job_page.dart';
 import 'package:time_tracker/models/job.dart';
 import 'package:time_tracker/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -46,24 +47,11 @@ class JobPage extends StatelessWidget {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _createJob(context),
+          onPressed: () => AddJobPage.show(context),
           child: Icon(Icons.add),
         ),
       ),
     );
-  }
-
-  Future<void> _createJob(BuildContext context) async {
-    DataBase _dataBase = Provider.of<DataBase>(context);
-    try {
-      await _dataBase
-          .createJob(Job(name: "Coding", ratePerHour: 17, id: "job_abc"));
-    } on PlatformException catch (e) {
-      PlatformExceptionAlertDialog(
-        exception: e,
-        title: "Operation Failed",
-      ).show(context);
-    }
   }
 
   _buildContents(BuildContext context) {
