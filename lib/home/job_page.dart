@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:time_tracker/common/list_item_builder.dart';
 import 'package:time_tracker/common/platform_alert_dialog.dart';
 import 'package:time_tracker/common/platform_exception_alert_dialog.dart';
 import 'package:time_tracker/home/add_job_page.dart';
@@ -59,23 +60,19 @@ class JobPage extends StatelessWidget {
     return StreamBuilder(
       stream: _dataBase.jobStream(),
       builder: (BuildContext context, AsyncSnapshot<List<Job>> snapshot) {
-        if (snapshot.hasData) {
-          return ListView(
-            children: snapshot.data
-                .map((job) => ListTile(
-                      title: Text(job.name),
-                      trailing: Icon(Icons.chevron_right),
-                      onTap: (){
-                        AddJobPage.show(context, job: job);
-                      },
-                    ))
-                .toList(),
-          );
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+        return ListItemBuilder<Job>(
+          snapshot: snapshot,
+          widgetBuilder: (context, job) => ListTile(
+            title: Text(job.name),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              AddJobPage.show(
+                context,
+                job: job,
+              );
+            },
+          ),
+        );
       },
     );
   }
