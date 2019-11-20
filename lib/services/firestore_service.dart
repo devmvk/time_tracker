@@ -5,7 +5,7 @@ class FirestoreService {
    FirestoreService._();
    static FirestoreService instance = FirestoreService._();
 
-   Future<void> setData({String path, Map<String, dynamic> data}) async{
+   Future<void> setData({@required String path, @required Map<String, dynamic> data}) async{
      final DocumentReference documentReference = Firestore.instance.document(path);
      await documentReference.setData(data);
    }
@@ -21,6 +21,11 @@ class FirestoreService {
         return builder(item.data);
       }}).toList();
     });
+   }
+
+   Future<void> deleteData({@required String path}) async{
+      final DocumentReference documentReference = Firestore.instance.document(path);
+      await documentReference.delete();
    }
 
 }

@@ -26,8 +26,10 @@ class ListItemBuilder<T> extends StatelessWidget {
 
   Widget _buildWiget(BuildContext context, List<T> items){
     return Container(
-      child: ListView(
-        children: items.map((T item) => widgetBuilder(context, item)).toList(),
+      child: ListView.separated(
+        itemCount: items.length,
+        itemBuilder: (context, index) => widgetBuilder(context, items[index]),
+        separatorBuilder: (context, index) => Divider(height: 0.5,),
       ),
     );
   }

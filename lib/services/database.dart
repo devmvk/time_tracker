@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:time_tracker/models/job.dart';
 import 'package:time_tracker/services/firestore_service.dart';
@@ -7,6 +6,7 @@ import 'package:time_tracker/utils/api_urls.dart';
 abstract class  DataBase {
   Future<void> createJob(Job job);
   Stream<List<Job>> jobStream();
+  Future<void> deleteJob(Job job);
 }
 
 class FireBaseDataBase extends DataBase{
@@ -29,6 +29,10 @@ class FireBaseDataBase extends DataBase{
       builder: (data) => Job.fromMap(data)
     );
     
+  }
+
+  Future<void> deleteJob(Job job) async{
+    await _firestoreService.deleteData(path: APIURLS.job(uid, job.id));
   }
 
 }
