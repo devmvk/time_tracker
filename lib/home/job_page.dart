@@ -37,19 +37,20 @@ class JobPage extends StatelessWidget {
         appBar: AppBar(
           title: Text("Jobs"),
           actions: <Widget>[
+            IconButton(
+              onPressed: () => AddJobPage.show(context),
+              icon: Icon(Icons.add),
+            ),
             FlatButton(
-                onPressed: () => _confirmLogout(context),
-                child: Text(
-                  "Logout",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ))
+              onPressed: () => _confirmLogout(context),
+              child: Text(
+                "Logout",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            )
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => AddJobPage.show(context),
-          child: Icon(Icons.add),
         ),
       ),
     );
@@ -85,11 +86,11 @@ class JobPage extends StatelessWidget {
     );
   }
 
-  Future<void> _deleteJob(BuildContext context, Job job) async{
+  Future<void> _deleteJob(BuildContext context, Job job) async {
     final database = Provider.of<DataBase>(context);
-    try{
+    try {
       await database.deleteJob(job);
-    }on PlatformException catch(e){
+    } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
         exception: e,
         title: "Error",

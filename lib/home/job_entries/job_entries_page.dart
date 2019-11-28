@@ -47,11 +47,12 @@ class JobEntriesPage extends StatelessWidget {
         elevation: 2.0,
         title: Text(job.name),
         actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'Edit',
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
-            ),
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => EntryPage.show(context: context, database: database, job: job),
+          ),
+          IconButton(
+            icon: Icon(Icons.edit),
             onPressed: () => AddJobPage.show(context, job: job),
           ),
         ],
