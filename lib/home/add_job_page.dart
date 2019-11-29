@@ -13,7 +13,7 @@ class AddJobPage extends StatefulWidget {
   AddJobPage({Key key, @required this.dataBase, this.job}) : super(key: key);
   static Future<void> show(BuildContext context, {Job job}) async {
     final database = Provider.of<DataBase>(context);
-    return Navigator.of(context).push(MaterialPageRoute(
+    return Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
       builder: (BuildContext context) => AddJobPage(dataBase: database, job: job,),
     ));
   }
