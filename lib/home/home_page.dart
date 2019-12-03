@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/home/account_page.dart';
 import 'package:time_tracker/home/cupertiono_home_scaffold.dart';
+import 'package:time_tracker/home/entries/entries_page.dart';
 import 'package:time_tracker/home/job_page.dart';
 import 'package:time_tracker/home/tab_item.dart';
 
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   Map<TabItem, WidgetBuilder> get widgetBuilders {
     return {
       TabItem.jobs: (_) => JobPage(),
-      TabItem.entries: (_) => Container(),
+      TabItem.entries: (_) => EntriesPage.create(_),
       TabItem.account: (_) => AccountPage(),
     };
   }
