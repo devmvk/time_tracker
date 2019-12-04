@@ -58,9 +58,20 @@ class AccountPage extends StatelessWidget {
   }
 
   Widget _buildUserInfo(User user) {
-    return Avatar(
-      photoUrl: user.avatarUrl,
-      radius: 50,
+    return Column(
+      children: <Widget>[
+        Avatar(
+          photoUrl: user.avatarUrl,
+          radius: 50,
+        ),
+        SizedBox(height: 8),
+        if (user.displayName != null)
+          Text(
+            user.displayName,
+            style: TextStyle(color: Colors.white),
+          ),
+        SizedBox(height: 8),
+      ],
     );
   }
 }
