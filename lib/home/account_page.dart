@@ -26,6 +26,7 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     auth = Provider.of<AuthBase>(context);
+    final user = Provider.of<User>(context);
     return SafeArea(
       child: Scaffold(
         body: Center(
