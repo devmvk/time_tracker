@@ -18,7 +18,9 @@ abstract class AuthBase{
 
 class User{
   final String uid;
-  User({@required this.uid});
+  final String displayName;
+  final String avatarUrl;
+  User({@required this.uid, @required this.avatarUrl, @required this.displayName});
 }
 
 class Auth implements AuthBase{
@@ -26,18 +28,18 @@ class Auth implements AuthBase{
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   Stream<User> get onAuthStateChanged{
-    return _auth.onAuthStateChanged.map((_fbUser) => _fbUser != null ? User(uid: _fbUser.uid) : null);
+    return _auth.onAuthStateChanged.map((_fbUser) => _fbUser != null ? User(uid: _fbUser.uid, avatarUrl: _fbUser.photoUrl, displayName: _fbUser.displayName) : null);
   }
 
   @override Future<User> currentUser() async{
     return _auth.currentUser()
-      .then((_fbUser) => _fbUser != null ? User(uid: _fbUser.uid) : null)
+      .then((_fbUser) => _fbUser != null ? User(uid: _fbUser.uid, avatarUrl: _fbUser.photoUrl, displayName: _fbUser.displayName) : null)
       .catchError((e){print(e.toString());});
   }
 
   @override Future<User> signInAnonymously() async{
     return _auth.signInAnonymously()
-      .then((_fbAuth) => User(uid: _fbAuth.user.uid))
+      .then((_fbAuth) => User(uid: _fbAuth.user.uid, avatarUrl: _fbAuth.user.photoUrl, displayName: _fbAuth.user.displayName))
       .catchError((e){print(e.toString());});
   }
 
@@ -64,7 +66,7 @@ class Auth implements AuthBase{
             idToken: _gAuthentication.idToken,
             accessToken: _gAuthentication.accessToken
           )
-        ).then<User>((AuthResult _) => _.user != null ? User(uid: _.user.toString()) : null);
+        ).then<User>((AuthResult _fbAuth) => _fbAuth.user != null ? User(uid: _fbAuth.user.uid, avatarUrl: _fbAuth.user.photoUrl, displayName: _fbAuth.user.displayName) : null);
       }else{
         throw StateError("");
       }
@@ -85,7 +87,7 @@ class Auth implements AuthBase{
             FacebookAuthProvider.getCredential(
               accessToken: _result.accessToken.token
             )
-          ).then<User>((AuthResult _) => _.user != null ? User(uid: _.user.toString()) : null);
+          ).then<User>((AuthResult _fbAuth) => _fbAuth.user != null ? User(uid: _fbAuth.user.uid, avatarUrl: _fbAuth.user.photoUrl, displayName: _fbAuth.user.displayName) : null);
           break;
         case FacebookLoginStatus.cancelledByUser:
           throw StateError("User Cancelled");
@@ -102,7 +104,7 @@ class Auth implements AuthBase{
   @override Future<User> createAccount(String email, String password) async{
     try{
       return _auth.createUserWithEmailAndPassword(email: email, password: password)
-      .then<User>((AuthResult _) => _.user != null ? User(uid: _.user.toString()) : null);
+      .then<User>((AuthResult _fbAuth) => _fbAuth.user != null ? User(uid: _fbAuth.user.uid, avatarUrl: _fbAuth.user.photoUrl, displayName: _fbAuth.user.displayName) : null);
     }catch (e){
       throw Exception(e.toString());
     }
@@ -111,7 +113,7 @@ class Auth implements AuthBase{
   @override Future<User> emailAndPasswordSignIn(String email, String password) async{
     try{
       return _auth.signInWithEmailAndPassword(email: email, password: password)
-      .then<User>((AuthResult _) => _.user != null ? User(uid: _.user.toString()) : null);
+      .then<User>((AuthResult _fbAuth) => _fbAuth.user != null ? User(uid: _fbAuth.user.uid, avatarUrl: _fbAuth.user.photoUrl, displayName: _fbAuth.user.displayName) : null);
     }catch (e){
       throw Exception(e.toString());
     }
