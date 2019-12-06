@@ -4,7 +4,12 @@ abstract class StringValidator{
 
 class NonEmptyStringValidator extends StringValidator{
 
-  @override isValid(String text) => text.isNotEmpty;
+  @override isValid(String text) {
+    if(text == null){
+      return false;
+    }
+    return text.isNotEmpty;
+  }
 }
 
 class EmailAndPasswordValidator {
