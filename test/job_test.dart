@@ -24,4 +24,15 @@ void main() {
       });
       expect(job, null);
     });
+
+  group('toMap', () {
+    test('valid name, ratePerHour', () {
+      final job = Job(name: 'Blogging', ratePerHour: 10, id: 'abc');
+      expect(job.toMap(), {
+        'name': 'Blogging',
+        'ratePerHour': 10,
+        'id': 'abc'
+      });
+    });
+  });
 }
