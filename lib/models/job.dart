@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 class Job{
   final String id;
   final String name;
@@ -6,11 +8,11 @@ class Job{
   Job({this.id, this.name, this.ratePerHour});
 
   factory Job.fromMap(Map<String, dynamic> data){
-    return Job(
+    return data != null ? Job(
       id: data["id"],
       name : data["name"],
       ratePerHour: data["ratePerHour"]
-    );
+    ): null; 
   }
 
   Map<String, dynamic> toMap(){
@@ -21,4 +23,16 @@ class Job{
     };
   }
 
+  @override
+  int get hashCode => hashValues(id, name, ratePerHour);
+
+  @override
+  bool operator ==(other) {
+    if (identical(this, other)) return true;
+    if (runtimeType != other.runtimeType) return false;
+    final Job otherJob = other;
+    return id == otherJob.id &&
+        name == otherJob.name &&
+        ratePerHour == otherJob.ratePerHour;
+  }
 }
