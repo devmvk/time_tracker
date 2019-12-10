@@ -8,7 +8,7 @@ class Job{
   Job({this.id, this.name, this.ratePerHour});
 
   factory Job.fromMap(Map<String, dynamic> data){
-    return data != null ? Job(
+    return data != null && data['name'] != null ? Job(
       id: data["id"],
       name : data["name"],
       ratePerHour: data["ratePerHour"]
@@ -35,4 +35,7 @@ class Job{
         name == otherJob.name &&
         ratePerHour == otherJob.ratePerHour;
   }
+
+  @override
+  String toString() => 'id: $id, name: $name, ratePerHour: $ratePerHour';
 }

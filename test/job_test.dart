@@ -17,4 +17,11 @@ void main() {
     });
     expect(job, Job(name: 'Blogging', ratePerHour: 10, id: 'abc'));
   });
+
+  test('missing name', () {
+      final job = Job.fromMap({
+        'ratePerHour': 10,
+      });
+      expect(job, null);
+    });
 }
