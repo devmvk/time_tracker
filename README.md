@@ -1,6 +1,6 @@
 # time_tracker
 
-A new Flutter project.
+Application which tracks time built using flutter
 
 ## Getting Started
 
